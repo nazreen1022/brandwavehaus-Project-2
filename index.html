@@ -3,7 +3,10 @@
 
   <head>
     <meta charset="UTF-8">
-    <title>Brandwave haus final Draft</title>
+    <title>Brandwave Haus | A Creative House for Brands</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <meta name="description" content="Brandwave Haus brings strategic marketing, public relations, project management and creative production together in Dubai.">
     <link rel="stylesheet" href="./style.css">
 
   </head>
@@ -55,14 +58,14 @@
 
     <label
       for="nav-toggle"
-      class="nav-button"
+      class="nav-button" role="button" tabindex="0" aria-label="Toggle navigation" aria-controls="main-navigation" aria-expanded="false"
     >
       <span></span>
       <span></span>
     </label>
 
 
-    <nav class="main-nav">
+    <nav class="main-nav" id="main-navigation" aria-label="Main navigation">
 
       <a href="#about">About</a>
       <a href="#approach">Approach</a>
@@ -406,7 +409,7 @@
         class="youtube-card"
         href="https://www.youtube.com/watch?v=s_jIQGgLkqw"
         target="_blank"
-        aria-hidden="true"
+        aria-hidden="true" tabindex="-1" rel="noopener noreferrer"
       >
         <img
           src="https://i.ytimg.com/vi/s_jIQGgLkqw/maxresdefault.jpg"
@@ -423,7 +426,7 @@
         class="youtube-card"
         href="https://www.youtube.com/watch?v=k8FMybLJoVU"
         target="_blank"
-        aria-hidden="true"
+        aria-hidden="true" tabindex="-1" rel="noopener noreferrer"
       >
         <img
           src="https://i.ytimg.com/vi/k8FMybLJoVU/maxresdefault.jpg"
@@ -440,7 +443,7 @@
         class="youtube-card"
         href="https://www.youtube.com/watch?v=SzWGiMlw9vs"
         target="_blank"
-        aria-hidden="true"
+        aria-hidden="true" tabindex="-1" rel="noopener noreferrer"
       >
         <img
           src="https://i.ytimg.com/vi/SzWGiMlw9vs/maxresdefault.jpg"
@@ -457,7 +460,7 @@
         class="youtube-card"
         href="https://www.youtube.com/watch?v=hh5cMMWTzuU"
         target="_blank"
-        aria-hidden="true"
+        aria-hidden="true" tabindex="-1" rel="noopener noreferrer"
       >
         <img
           src="https://i.ytimg.com/vi/hh5cMMWTzuU/maxresdefault.jpg"
@@ -474,7 +477,7 @@
         class="youtube-card"
         href="https://www.youtube.com/watch?v=u1WVA97LZF8"
         target="_blank"
-        aria-hidden="true"
+        aria-hidden="true" tabindex="-1" rel="noopener noreferrer"
       >
         <img
           src="https://i.ytimg.com/vi/u1WVA97LZF8/maxresdefault.jpg"
@@ -491,7 +494,7 @@
         class="youtube-card"
         href="https://www.youtube.com/watch?v=9B4umKSk0-g"
         target="_blank"
-        aria-hidden="true"
+        aria-hidden="true" tabindex="-1" rel="noopener noreferrer"
       >
         <img
           src="https://i.ytimg.com/vi/9B4umKSk0-g/maxresdefault.jpg"
@@ -508,7 +511,7 @@
         class="youtube-card"
         href="https://www.youtube.com/watch?v=O3Q0_q4TSXM"
         target="_blank"
-        aria-hidden="true"
+        aria-hidden="true" tabindex="-1" rel="noopener noreferrer"
       >
         <img
           src="https://i.ytimg.com/vi/O3Q0_q4TSXM/maxresdefault.jpg"
@@ -525,7 +528,7 @@
         class="youtube-card"
         href="https://www.youtube.com/watch?v=6zsE9mH-yyk"
         target="_blank"
-        aria-hidden="true"
+        aria-hidden="true" tabindex="-1" rel="noopener noreferrer"
       >
         <img
           src="https://i.ytimg.com/vi/6zsE9mH-yyk/maxresdefault.jpg"
@@ -542,7 +545,7 @@
         class="youtube-card"
         href="https://www.youtube.com/watch?v=E7znSK4I4a8"
         target="_blank"
-        aria-hidden="true"
+        aria-hidden="true" tabindex="-1" rel="noopener noreferrer"
       >
         <img
           src="https://i.ytimg.com/vi/E7znSK4I4a8/maxresdefault.jpg"
@@ -559,7 +562,7 @@
         class="youtube-card"
         href="https://www.youtube.com/watch?v=xXkGI9s5FR0"
         target="_blank"
-        aria-hidden="true"
+        aria-hidden="true" tabindex="-1" rel="noopener noreferrer"
       >
         <img
           src="https://i.ytimg.com/vi/xXkGI9s5FR0/maxresdefault.jpg"
@@ -576,7 +579,7 @@
         class="youtube-card"
         href="https://www.youtube.com/watch?v=kxy9eNbpNic"
         target="_blank"
-        aria-hidden="true"
+        aria-hidden="true" tabindex="-1" rel="noopener noreferrer"
       >
         <img
           src="https://i.ytimg.com/vi/kxy9eNbpNic/maxresdefault.jpg"
@@ -593,7 +596,7 @@
         class="youtube-card"
         href="https://www.youtube.com/watch?v=hyvojaX4d4w"
         target="_blank"
-        aria-hidden="true"
+        aria-hidden="true" tabindex="-1" rel="noopener noreferrer"
       >
         <img
           src="https://i.ytimg.com/vi/hyvojaX4d4w/maxresdefault.jpg"
@@ -618,7 +621,7 @@
     </span>
 
     <span>
-      Click any project to watch on YouTube ↗
+      <span class="desktop-project-note">Click any project to watch on YouTube ↗</span><span class="mobile-swipe-note">Swipe to explore · Tap to watch ↗</span>
     </span>
 
   </div>
@@ -1084,13 +1087,7 @@
 
   <div class="work-video-wrap">
 
-    <iframe
-      id="workVideoFrame"
-      src="https://www.youtube.com/embed/s_jIQGgLkqw?autoplay=1&mute=1&controls=0&playsinline=1&rel=0&loop=1&playlist=s_jIQGgLkqw&modestbranding=1"
-      title="Brandwave Haus Work in Motion"
-      allow="autoplay; encrypted-media; picture-in-picture"
-      allowfullscreen
-    ></iframe>
+    <div id="workVideoPlayer" class="work-video-player" aria-label="Brandwave Haus Work in Motion"></div>
 
   </div>
 
@@ -1491,7 +1488,10 @@
     </div>
 
 
-    <form class="contact-form">
+    <form class="contact-form" action="https://formsubmit.co/nasreennazar@brandwavehaus.com" method="POST">
+      <input type="hidden" name="_subject" value="New Brandwave Haus website enquiry">
+      <input type="hidden" name="_template" value="table">
+      <input type="text" name="_honey" class="form-honeypot" tabindex="-1" autocomplete="off" aria-hidden="true">
 
       <div class="field-row">
 
@@ -1580,6 +1580,7 @@
 
       </button>
 
+      <p class="form-status" role="status" aria-live="polite"></p>
     </form>
 
   </div>

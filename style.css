@@ -1710,3 +1710,113 @@ textarea {
   }
 
 }
+
+/* FINAL RESPONSIVE AND FUNCTIONAL REFINEMENTS */
+section[id] { scroll-margin-top: 110px; }
+.mobile-swipe-note { display: none; }
+.form-honeypot { display: none !important; }
+.form-status { margin: 16px 0 0; font-size: 13px; line-height: 1.7; }
+.form-status:empty { display: none; }
+.form-status.is-success { color: #d3e8d5; }
+.form-status.is-error { color: #f0b8b8; }
+.submit-button:disabled { opacity: .65; cursor: wait; }
+.contact-form input:focus, .contact-form textarea:focus { border-bottom-color: #fff; }
+a:focus-visible, .nav-button:focus-visible, button:focus-visible { outline: 2px solid #999; outline-offset: 5px; }
+.youtube-track:focus-within { animation-play-state: paused; }
+
+/* The API replaces the div with an iframe; target both directly. */
+.work-video-wrap > .work-video-player,
+.work-video-wrap > iframe {
+  position: absolute;
+  inset: auto;
+  top: 50%;
+  left: 50%;
+  width: var(--video-width, 177.7778vh);
+  height: var(--video-height, 56.25vw);
+  min-width: 100%;
+  min-height: 100%;
+  transform: translate(-50%, -50%);
+  border: 0;
+  pointer-events: none;
+}
+
+@media (min-width: 821px) and (max-width: 1050px) {
+  .main-nav { gap: 12px; font-size: 11px; }
+  .nav-cta { min-width: 115px; padding: 12px; }
+  .hero-copy { min-height: 560px; }
+  .hero-visual { min-height: 460px; height: 55vw; }
+}
+
+@media (max-width: 820px) {
+  :root { --side-space: clamp(20px, 5vw, 36px); }
+  .nav-shell { min-height: 64px; backdrop-filter: none; }
+  .nav-button { position: relative; z-index: 2; flex: none; cursor: pointer; width: 44px; height: 44px; align-items: center; }
+  .main-nav { visibility: hidden; pointer-events: none; gap: 24px; font-size: 18px; overflow-y: auto; }
+  .nav-toggle:checked ~ .main-nav { visibility: visible; pointer-events: auto; }
+  .hero { padding-top: 88px; min-height: 0; }
+  .hero-grid { min-height: 0; }
+  .hero-copy { min-height: 0; padding: 64px var(--side-space) 56px; }
+  .hero h1 { font-size: clamp(46px, 8.8vw, 72px); letter-spacing: -2px; line-height: .98; }
+  .hero-bottom { flex-direction: column; align-items: flex-start; gap: 28px; margin-top: 36px; }
+  .hero-bottom p { font-size: 14px; }
+  .hero-visual { min-height: 0; height: clamp(300px, 75vw, 520px); }
+  .hero-visual img { object-position: center; }
+  .image-label { left: var(--side-space); bottom: 24px; }
+  .youtube-showcase { padding: 64px 0 72px; }
+  .youtube-showcase-heading { margin-bottom: 32px; }
+  .youtube-showcase-heading h2, .section-intro h2, .approach-header h2,
+  .brand-statement > h2, .clients-header h2, .contact-heading h2 {
+    font-size: clamp(40px, 8vw, 64px); letter-spacing: -2px; line-height: 1;
+  }
+  .youtube-showcase-heading p { margin-top: 24px; }
+  .youtube-carousel { overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; scroll-padding-inline: var(--side-space); }
+  .youtube-track { width: max-content; padding: 0 var(--side-space); gap: 14px; animation: none; transform: none; }
+  .youtube-card { flex: 0 0 80vw; width: 80vw; scroll-snap-align: start; }
+  .youtube-card[aria-hidden="true"] { display: none; }
+  .desktop-project-note { display: none; }
+  .mobile-swipe-note { display: inline; }
+  .carousel-note { gap: 10px; }
+  .section, .approach, .brand-statement { padding: 72px var(--side-space); }
+  .section-intro, .approach-header { gap: 24px; margin-bottom: 40px; }
+  .about-layout, .approach-layout { gap: 30px; }
+  .about-statement p, .approach-lead p { font-size: clamp(27px, 5.5vw, 38px); line-height: 1.2; }
+  .about-copy p, .approach-copy p { font-size: 14px; }
+  .approach-layout { padding-bottom: 40px; }
+  .approach-process article { padding: 24px 0; min-height: 0; }
+  .approach-process h3 { margin: 0; font-size: 30px; }
+  .approach-process article > span { grid-column: 2; grid-row: 1; }
+  .approach-process article p { margin: 0; grid-row: 2; }
+  .brand-statement > h2 { margin: 32px 0 48px; }
+  .mission-grid { gap: 32px; }
+  .statement-label { margin-bottom: 20px; }
+  .mission-grid p { font-size: 19px; line-height: 1.5; }
+  .services-heading { margin-bottom: 40px; }
+  .service-row { min-height: 0; margin-bottom: 24px; }
+  .service-image { height: clamp(240px, 65vw, 430px); }
+  .service-content { padding: 30px 24px; }
+  .work-in-motion { height: clamp(480px, 75svh, 660px); min-height: 480px; }
+  .work-video-content { padding: 72px var(--side-space); }
+  .work-video-content h2 { font-size: clamp(48px, 11vw, 84px); line-height: .92; }
+  .work-video-content p { max-width: 340px; font-size: 13px; }
+  .work-video-bottom { gap: 16px; font-size: 7px; bottom: 24px; }
+  .clients { padding: 72px 0 60px; }
+  .clients-header { gap: 24px; margin-bottom: 36px; }
+  .clients-header p { margin: 0; }
+  .contact { padding: 72px var(--side-space) 48px; }
+  .contact-main { row-gap: 36px; }
+  .contact-heading h2 { margin: 24px 0; }
+  .contact-form input, .contact-form textarea { font-size: 16px; }
+  .contact-details { margin-top: 36px; }
+  .contact-detail { padding: 24px 0; gap: 14px; min-height: 100px; }
+  .contact-detail > div { min-width: 0; overflow-wrap: anywhere; }
+  .footer { padding: 44px var(--side-space) 28px; }
+  .footer-primary { padding-bottom: 30px; }
+}
+
+@media (max-width: 380px) {
+  .brand-name { font-size: 23px; }
+  .brand-tagline { font-size: 6px; }
+  .hero h1 { font-size: 43px; }
+  .service-content { padding: 26px 20px; }
+  .work-video-bottom { flex-direction: column; gap: 8px; }
+}
