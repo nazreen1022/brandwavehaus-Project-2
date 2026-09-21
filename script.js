@@ -313,16 +313,21 @@
 })();
 
 
+
+
 /* =========================================================
-   MOBILE WORK THAT MOVES — RELIABLE AUTO ROTATION
+   MOBILE WORK THAT MOVES — CONTINUOUS SMOOTH AUTO-SCROLL
+   Approx. one card-width every 2 seconds; no swipe/jump effect.
+   Manual touch swipe remains enabled and temporarily pauses motion.
    ========================================================= */
 (() => {
   const mq = window.matchMedia('(max-width: 820px)');
-  let timer = null;
+  let raf = null;
+  let last = 0;
+  let paused = false;
   let resumeTimer = null;
-  let currentIndex = 0;
 
-  function getParts() {
+  function parts() {
     const carousel = document.querySelector('.youtube-carousel');
     if (!carousel) return {};
     const cards = Array.from(carousel.querySelectorAll('.youtube-card'))
@@ -330,77 +335,64 @@
     return { carousel, cards };
   }
 
-  function goTo(index, smooth = true) {
-    const { carousel, cards } = getParts();
-    if (!carousel || !cards || !cards.length) return;
-    currentIndex = ((index % cards.length) + cards.length) % cards.length;
-    const card = cards[currentIndex];
-    const left = card.offsetLeft - Math.max(0, (carousel.clientWidth - card.offsetWidth) / 2);
-    carousel.scrollTo({
-      left,
-      behavior: smooth ? 'smooth' : 'auto'
-    });
+  function speedPxPerMs(carousel, cards) {
+    if (!cards || !cards.length) return 0.12;
+    const card = cards[0];
+    const styles = getComputedStyle(carousel.querySelector('.youtube-track') || carousel);
+    const gap = parseFloat(styles.columnGap || styles.gap || 0) || 0;
+    return (card.offsetWidth + gap) / 2000; // one card distance in ~2 seconds
   }
 
-  function nearestIndex() {
-    const { carousel, cards } = getParts();
-    if (!carousel || !cards || !cards.length) return 0;
-    const center = carousel.scrollLeft + carousel.clientWidth / 2;
-    let best = 0, dist = Infinity;
-    cards.forEach((card, i) => {
-      const c = card.offsetLeft + card.offsetWidth / 2;
-      const d = Math.abs(c - center);
-      if (d < dist) { dist = d; best = i; }
-    });
-    return best;
+  function frame(ts) {
+    const { carousel, cards } = parts();
+    if (!mq.matches || !carousel || !cards || cards.length < 2) {
+      raf = requestAnimationFrame(frame);
+      last = ts;
+      return;
+    }
+
+    if (!last) last = ts;
+    const dt = Math.min(ts - last, 40);
+    last = ts;
+
+    if (!paused) {
+      carousel.scrollLeft += speedPxPerMs(carousel, cards) * dt;
+
+      // Seamlessly loop when reaching the end.
+      const max = carousel.scrollWidth - carousel.clientWidth;
+      if (carousel.scrollLeft >= max - 2) {
+        carousel.scrollLeft = 0;
+      }
+    }
+    raf = requestAnimationFrame(frame);
   }
 
-  function stop() {
-    if (timer) clearInterval(timer);
-    timer = null;
-  }
-
-  function start() {
-    stop();
-    if (!mq.matches) return;
-    const { carousel, cards } = getParts();
-    if (!carousel || !cards || cards.length < 2) return;
-    timer = setInterval(() => {
-      currentIndex = nearestIndex();
-      goTo(currentIndex + 1, true);
-    }, 500);
-  }
-
-  function pauseAndResume() {
-    stop();
+  function pause() {
+    paused = true;
     if (resumeTimer) clearTimeout(resumeTimer);
-    resumeTimer = setTimeout(() => {
-      currentIndex = nearestIndex();
-      start();
-    }, 1800);
+  }
+
+  function resumeSoon() {
+    if (resumeTimer) clearTimeout(resumeTimer);
+    resumeTimer = setTimeout(() => { paused = false; }, 1200);
   }
 
   function bind() {
-    const { carousel, cards } = getParts();
-    if (!carousel || !cards || !cards.length) return;
+    const { carousel } = parts();
+    if (!carousel || carousel.dataset.continuousScrollBound) return;
+    carousel.dataset.continuousScrollBound = 'true';
 
-    // Prevent duplicate listener binding.
-    if (!carousel.dataset.autoRotateBound) {
-      carousel.dataset.autoRotateBound = 'true';
-      ['touchstart', 'pointerdown'].forEach(evt =>
-        carousel.addEventListener(evt, pauseAndResume, { passive: true })
-      );
-      ['touchend', 'pointerup', 'pointercancel'].forEach(evt =>
-        carousel.addEventListener(evt, pauseAndResume, { passive: true })
-      );
-    }
-
-    currentIndex = nearestIndex();
-    start();
+    carousel.addEventListener('touchstart', pause, { passive: true });
+    carousel.addEventListener('touchend', resumeSoon, { passive: true });
+    carousel.addEventListener('touchcancel', resumeSoon, { passive: true });
+    carousel.addEventListener('pointerdown', pause, { passive: true });
+    carousel.addEventListener('pointerup', resumeSoon, { passive: true });
+    carousel.addEventListener('pointercancel', resumeSoon, { passive: true });
   }
 
-  window.addEventListener('load', () => setTimeout(bind, 500));
-  window.addEventListener('resize', () => setTimeout(bind, 150));
-  if (mq.addEventListener) mq.addEventListener('change', bind);
-  else mq.addListener(bind);
+  window.addEventListener('load', () => {
+    bind();
+    if (!raf) raf = requestAnimationFrame(frame);
+  });
+  window.addEventListener('resize', bind);
 })();
