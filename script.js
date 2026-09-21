@@ -43,7 +43,7 @@
       }
       sending = true;
       button.disabled = true;
-      button.innerHTML = "Sending enquiry… <span>↗</span>";
+      button.textContent = "Sending enquiry…";
       form.setAttribute("aria-busy", "true");
       status.className = "form-status";
       status.textContent = "";
@@ -76,6 +76,72 @@
     });
   }
 
+  /* WORK — keep the carousel and cinematic player on one approved source list. */
+  const allVideoIds = [
+    "E7znSK4I4a8", "s_jIQGgLkqw", "k8FMybLJoVU", "6zsE9mH-yyk",
+    "SzWGiMlw9vs", "hh5cMMWTzuU", "u1WVA97LZF8", "9B4umKSk0-g",
+    "O3Q0_q4TSXM", "xXkGI9s5FR0", "kxy9eNbpNic", "hyvojaX4d4w",
+    "xEPIr9BpD5Y", "THZbAarEcdA", "slfnhUzeXzw", "T-rdDiLk0hI"
+  ];
+
+  const youtubeTrack = document.querySelector(".youtube-track");
+  if (youtubeTrack) {
+    const card = (id, duplicate = false) => `
+      <a class="youtube-card" href="https://www.youtube.com/watch?v=${id}"
+         target="_blank" rel="noopener noreferrer"
+         ${duplicate ? 'aria-hidden="true" tabindex="-1"' : ""}>
+        <img src="https://i.ytimg.com/vi/${id}/maxresdefault.jpg"
+             alt="${duplicate ? "" : "Brandwave Haus project"}">
+        <span class="youtube-play-hint">
+          <i class="fa-brands fa-youtube" aria-hidden="true"></i> View Project
+        </span>
+      </a>`;
+    youtubeTrack.innerHTML = [
+      ...allVideoIds.map(id => card(id)),
+      ...allVideoIds.map(id => card(id, true))
+    ].join("");
+  }
+
+  /* CLIENTS — the original logo set is completely replaced here. */
+  const clients = [
+    ["https://user34551.na.imgto.link/public/20260921/screenshot-2026-08-28-161548.avif", "United Motors"],
+    ["https://user34551.na.imgto.link/public/20260921/seva-logo.avif", "SEVA"],
+    ["https://user34551.na.imgto.link/public/20260921/sealed-air-new.avif", "Sealed Air"],
+    ["https://user34551.na.imgto.link/public/20260921/screenshot-2026-09-21-at-10-48-23-am-1.avif", "Aptitude Cafe"],
+    ["assets/logos/relictum.png", "Relictum"],
+    ["assets/logos/aix-investment-group.png", "AIX Investment Group"],
+    ["assets/logos/sharjah-children.png", "Sharjah Children"],
+    ["https://user34551.na.imgto.link/public/20260921/sharjah-book-authority.avif", "Sharjah Book Authority"],
+    ["https://user34551.na.imgto.link/public/20260921/parivar-restaurant.avif", "Parivar Restaurant"],
+    ["assets/logos/mkn-global.jpeg", "MKN Global"],
+    ["https://user34551.na.imgto.link/public/20260921/mizu-j-restaurant.avif", "Mizu"],
+    ["https://user34551.na.imgto.link/public/20260921/manzo-sushi.avif", "Manzo Sushi"],
+    ["https://user34551.na.imgto.link/public/20260921/lyla-blanc.avif", "Lyla Blanc"],
+    ["https://user34551.na.imgto.link/public/20260921/logo-128337307.avif", "AIM"],
+    ["https://user34551.na.imgto.link/public/20260921/gonpachi-300x300.avif", "Gonpachi"],
+    ["https://user34551.na.imgto.link/public/20260921/expo-logo.avif", "Expo"],
+    ["https://user34551.na.imgto.link/public/20260921/elite-private-school-logo.avif", "Elite Private School"],
+    ["https://user34551.na.imgto.link/public/20260921/daarzood.avif", "Daar Zood"],
+    ["assets/logos/baraka.jpeg", "Baraka"],
+    ["assets/logos/al-faridah-building.png", "Al Faridah Building"],
+    ["https://user34551.na.imgto.link/public/20260921/al-bayt-mitwahid-logo.avif", "Al Bayt Mitwahid"],
+    ["https://user34551.na.imgto.link/public/20260921/ahic-logo-scaled.avif", "AHIC"]
+  ];
+
+  const clientTrack = document.querySelector(".client-track");
+  if (clientTrack) {
+    const wideClients = new Set([0, 2, 3, 5, 7, 9, 12, 16, 19, 20, 21]);
+    const logo = ([src, alt], index, duplicate = false) => `
+      <div class="client-item${wideClients.has(index) ? " client-wide" : ""}"
+           ${duplicate ? 'aria-hidden="true"' : ""}>
+        <img src="${src}" alt="${duplicate ? "" : alt}">
+      </div>`;
+    clientTrack.innerHTML = [
+      ...clients.map((client, index) => logo(client, index)),
+      ...clients.map((client, index) => logo(client, index, true))
+    ].join("");
+  }
+
   /* YouTube sometimes returns a tiny placeholder rather than a failed request. */
   document.querySelectorAll(".youtube-card img").forEach(image => {
     const fallback = () => {
@@ -93,11 +159,7 @@
   });
 
   /* OUR WORK IN MOTION — original approved order, 1 → 12 → 1. */
-  const workVideoIds = [
-    "s_jIQGgLkqw", "k8FMybLJoVU", "SzWGiMlw9vs", "hh5cMMWTzuU",
-    "u1WVA97LZF8", "9B4umKSk0-g", "O3Q0_q4TSXM", "6zsE9mH-yyk",
-    "E7znSK4I4a8", "xXkGI9s5FR0", "kxy9eNbpNic", "hyvojaX4d4w"
-  ];
+  const workVideoIds = allVideoIds;
   const mount = document.getElementById("workVideoPlayer");
   if (!mount) return;
   const wrap = document.querySelector(".work-video-wrap");
@@ -152,7 +214,7 @@
           if (event.data === window.YT.PlayerState.ENDED) playNext();
         },
         onError() {
-          // Skip unavailable/non-embeddable videos. Back off if all 12 fail.
+          // Skip unavailable/non-embeddable videos. Back off if all videos fail.
           consecutiveErrors += 1;
           playNext(consecutiveErrors >= workVideoIds.length ? 30000 : 250);
         },
