@@ -2770,7 +2770,7 @@ p {
     display: flex !important;
     flex-wrap: nowrap !important;
     will-change: transform;
-    animation: workMovesMarquee 180s linear infinite !important;
+    animation: workMovesMarquee 160s linear infinite !important;
   }
 
   .youtube-carousel:hover .youtube-track,
