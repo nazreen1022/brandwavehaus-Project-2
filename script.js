@@ -27,54 +27,7 @@
     }
   });
 
-  /* CONTACT — FormSubmit AJAX keeps visitors on this page. */
-  const form = document.querySelector(".contact-form");
-  if (form) {
-    const button = form.querySelector(".submit-button");
-    const status = form.querySelector(".form-status");
-    const buttonText = button.innerHTML;
-    let sending = false;
-    form.addEventListener("submit", async event => {
-      event.preventDefault();
-      if (sending) return;
-      if (!form.checkValidity()) {
-        form.reportValidity();
-        return;
-      }
-      sending = true;
-      button.disabled = true;
-      button.textContent = "Sending enquiry…";
-      form.setAttribute("aria-busy", "true");
-      status.className = "form-status";
-      status.textContent = "";
-      const controller = new AbortController();
-      const timeout = setTimeout(() => controller.abort(), 30000);
-      try {
-        const response = await fetch("https://formsubmit.co/ajax/nasreennazar@brandwavehaus.com", {
-          method: "POST",
-          body: new FormData(form),
-          headers: { Accept: "application/json" },
-          signal: controller.signal
-        });
-        const result = await response.json();
-        if (!response.ok || ![true, "true"].includes(result.success)) {
-          throw new Error("Submission was not accepted");
-        }
-        form.reset();
-        status.classList.add("is-success");
-        status.textContent = "Thank you. Your enquiry has been sent successfully. We’ll be in touch soon.";
-      } catch (error) {
-        status.classList.add("is-error");
-        status.textContent = "We couldn’t send your enquiry just now. Please email info@brandwavehaus.com and we’ll get back to you.";
-      } finally {
-        clearTimeout(timeout);
-        sending = false;
-        button.disabled = false;
-        button.innerHTML = buttonText;
-        form.removeAttribute("aria-busy");
-      }
-    });
-  }
+  /* CONTACT — native FormSubmit POST is reliable on static hosting. */
 
   /* WORK — keep the carousel and cinematic player on one approved source list. */
   const allVideoIds = [
@@ -163,6 +116,7 @@
   const mount = document.getElementById("workVideoPlayer");
   if (!mount) return;
   const wrap = document.querySelector(".work-video-wrap");
+  const mobilePlayButton = document.querySelector(".work-video-play");
   let player;
   let currentIndex = 0;
   let advanceTimer = null;
@@ -208,9 +162,17 @@
           sizePlayer();
           event.target.mute();
           event.target.playVideo();
+          window.setTimeout(() => {
+            if (event.target.getPlayerState() !== window.YT.PlayerState.PLAYING) {
+              mobilePlayButton?.classList.add("is-visible");
+            }
+          }, 1800);
         },
         onStateChange(event) {
-          if (event.data === window.YT.PlayerState.PLAYING) consecutiveErrors = 0;
+          if (event.data === window.YT.PlayerState.PLAYING) {
+            consecutiveErrors = 0;
+            mobilePlayButton?.classList.remove("is-visible");
+          }
           if (event.data === window.YT.PlayerState.ENDED) playNext();
         },
         onError() {
@@ -220,12 +182,20 @@
         },
         onAutoplayBlocked() {
           // Some mobile browsers require a user gesture even for muted video.
+          mobilePlayButton?.classList.add("is-visible");
           const resume = () => { player.mute(); player.playVideo(); };
           document.addEventListener("pointerdown", resume, { once: true });
         }
       }
     });
   }
+
+  mobilePlayButton?.addEventListener("click", () => {
+    if (!player) return;
+    player.mute();
+    player.playVideo();
+    mobilePlayButton.classList.remove("is-visible");
+  });
 
   const previousReady = window.onYouTubeIframeAPIReady;
   window.onYouTubeIframeAPIReady = () => {
