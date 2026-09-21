@@ -2752,3 +2752,39 @@ p {
     margin-right: auto !important;
   }
 }
+
+
+/* =========================================================
+   MOBILE WORK THAT MOVES — CLIENT-LOGO STYLE MARQUEE
+   Continuous, uninterrupted horizontal movement.
+   ========================================================= */
+@media (max-width: 820px) {
+  .youtube-carousel {
+    overflow: hidden !important;
+    scroll-snap-type: none !important;
+    -webkit-overflow-scrolling: auto !important;
+  }
+
+  .youtube-track {
+    width: max-content !important;
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    will-change: transform;
+    animation: workMovesMarquee 18s linear infinite !important;
+  }
+
+  .youtube-carousel:hover .youtube-track,
+  .youtube-carousel:active .youtube-track {
+    animation-play-state: running !important;
+  }
+
+  .youtube-card {
+    flex: 0 0 auto !important;
+    scroll-snap-align: none !important;
+  }
+
+  @keyframes workMovesMarquee {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+}
