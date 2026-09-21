@@ -1075,7 +1075,7 @@ textarea {
 
   gap: 45px;
 
-  align-items: end;
+  align-items: center;
 
   margin: 0 auto clamp(70px,8vw,110px);
 
@@ -2535,10 +2535,166 @@ p {
 
   /* Work That Moves: automatic motion plus native manual swipe on mobile. */
   .youtube-carousel {
+    overflow-x: auto;
+    overflow-y: hidden;
     scroll-snap-type: none;
     scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-x;
   }
   .youtube-carousel::-webkit-scrollbar { display: none; }
-  .youtube-track { animation: none; }
+  .youtube-track {
+    animation: none;
+    width: max-content;
+    transform: none;
+  }
   .youtube-card[aria-hidden="true"] { display: block; }
+}
+
+
+/* =========================================================
+   21 SEP 2026 — FINAL APPROVED COMPACT SPACING / TYPOGRAPHY
+   ========================================================= */
+
+/* Desktop: smaller Inter navigation approved in preview. */
+@media (min-width: 821px) {
+  .main-nav,
+  .main-nav > a,
+  .main-nav .nav-cta {
+    font-family: "Inter", Arial, sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+  }
+
+  /* Keep the approved compact navigation rhythm. */
+  .main-nav {
+    gap: 9px;
+  }
+
+  .main-nav > a:not(.nav-cta):not(:nth-of-type(4))::after {
+    margin-left: 9px;
+  }
+
+  .main-nav .nav-cta {
+    min-width: 132px;
+    height: 44px;
+    padding: 0 20px;
+  }
+
+  /* Reduce oversized vertical whitespace consistently across main sections. */
+  .section {
+    padding-top: clamp(82px, 9vw, 140px);
+    padding-bottom: clamp(82px, 9vw, 140px);
+  }
+
+  .approach {
+    padding-top: clamp(88px, 10vw, 155px);
+    padding-bottom: clamp(88px, 10vw, 155px);
+  }
+
+  .brand-statement {
+    padding-top: clamp(58px, 5vw, 82px);
+    padding-bottom: clamp(82px, 9vw, 145px);
+  }
+
+  .youtube-showcase {
+    padding-top: clamp(75px, 8vw, 120px);
+    padding-bottom: clamp(75px, 8vw, 120px);
+  }
+
+  .clients {
+    padding-top: clamp(78px, 8vw, 125px);
+    padding-bottom: clamp(62px, 7vw, 105px);
+  }
+
+  .contact {
+    padding-top: clamp(82px, 9vw, 140px);
+    padding-bottom: clamp(60px, 7vw, 105px);
+  }
+
+  /* Keep the Trusted By header on one row and vertically middle aligned. */
+  .clients-header {
+    align-items: center;
+  }
+
+  /* Mission / Vision body copy: reduced to match the site's paragraph scale. */
+  .brand-statement .mission-grid p {
+    font-size: clamp(16px, 1.25vw, 20px);
+    line-height: 1.5;
+  }
+}
+
+/* Mobile: reduce section padding, but retain enough breathing room. */
+@media (max-width: 820px) {
+  .section,
+  .approach,
+  .brand-statement {
+    padding-top: 58px;
+    padding-bottom: 58px;
+  }
+
+  .youtube-showcase {
+    padding-top: 56px;
+    padding-bottom: 62px;
+  }
+
+  .clients {
+    padding-top: 58px;
+    padding-bottom: 52px;
+  }
+
+  .contact {
+    padding-top: 58px;
+    padding-bottom: 42px;
+  }
+
+  .brand-statement .mission-grid p {
+    font-size: 16px;
+    line-height: 1.5;
+  }
+}
+
+
+/* =========================================================
+   21 SEP 2026 — APPROVED HORIZONTAL VISUAL-MIDDLE ALIGNMENT
+   ========================================================= */
+
+@media (min-width: 821px) {
+  /* Our Services: keep original 2-column row; align label and full heading
+     block to the same visual middle line. */
+  .services-heading {
+    align-items: center;
+  }
+
+  .services-heading .section-label,
+  .services-heading h2 {
+    align-self: center;
+  }
+
+  /* Work That Moves: keep heading left and description right;
+     align the description to the visual middle of the full heading block. */
+  .youtube-showcase-heading {
+    align-items: center;
+  }
+
+  .youtube-showcase-heading > div,
+  .youtube-showcase-heading > p {
+    align-self: center;
+  }
+}
+
+
+/* =========================================================
+   21 SEP 2026 — FINAL NAVIGATION: NO DIVIDERS
+   ========================================================= */
+@media (min-width: 821px) {
+  .main-nav > a:not(.nav-cta)::after {
+    content: none !important;
+    display: none !important;
+  }
+
+  /* Maintain the approved clean spacing after removing the separators. */
+  .main-nav {
+    gap: 22px;
+  }
 }

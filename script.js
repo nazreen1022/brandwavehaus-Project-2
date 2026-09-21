@@ -282,7 +282,7 @@
     if (!mobile.matches || reducedMotion.matches) return stop();
     if (!paused) {
       const halfway = track.scrollWidth / 2;
-      carousel.scrollLeft += 0.35;
+      carousel.scrollLeft += 0.55;
       if (carousel.scrollLeft >= halfway) carousel.scrollLeft -= halfway;
     }
     raf = requestAnimationFrame(tick);
