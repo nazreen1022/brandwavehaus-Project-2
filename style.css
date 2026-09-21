@@ -2427,3 +2427,78 @@ p {
     border: 1px solid rgba(255,255,255,.78);
   }
 }
+
+
+/* =========================================================
+   21 SEP 2026 — FINAL APPROVED NAV / ABOUT / APPROACH TWEAKS
+   ========================================================= */
+@media (min-width: 821px) {
+  /* All desktop navigation labels use the exact same typography. */
+  .main-nav {
+    font-family: "Montserrat", Arial, sans-serif;
+    font-size: 16px;
+    font-weight: 300;
+    gap: 10px;
+    margin-right: 8px;
+  }
+
+  .main-nav > a,
+  .main-nav .nav-cta {
+    font-family: "Montserrat", Arial, sans-serif;
+    font-size: 16px;
+    font-weight: 300;
+  }
+
+  /* Compact dividers only between the four standard navigation links. */
+  .main-nav > a:not(.nav-cta):not(:nth-of-type(4))::after {
+    content: "|";
+    display: inline-block;
+    margin-left: 10px;
+    color: rgba(255,255,255,.58);
+    font-weight: 300;
+  }
+
+  .main-nav .nav-cta {
+    min-width: 142px;
+    height: 48px;
+    margin-left: 4px;
+    padding: 0 22px;
+    color: #fff;
+    background: #050505;
+    border: 1px solid rgba(255,255,255,.78);
+    border-radius: 999px;
+  }
+
+  /* Approved tighter About composition. */
+  .about .section-intro {
+    margin-bottom: 40px;
+  }
+
+  .about-statement p {
+    margin-bottom: 30px;
+  }
+
+  /* Approved subtle +2px increase from the actual 15px desktop copy. */
+  .about-copy p {
+    font-size: 17px;
+  }
+
+  /* The visible Our Approach section label is intentionally removed. */
+  .brand-statement > .section-label {
+    display: none;
+  }
+}
+
+@media (max-width: 820px) {
+  /* Keep mobile menu typography consistent with desktop labels. */
+  .main-nav,
+  .main-nav > a,
+  .main-nav .nav-cta {
+    font-family: "Montserrat", Arial, sans-serif;
+    font-weight: 300;
+  }
+
+  .brand-statement > .section-label {
+    display: none;
+  }
+}
