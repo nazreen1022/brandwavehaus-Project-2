@@ -311,3 +311,96 @@
   reducedMotion.addEventListener?.('change', start);
   start();
 })();
+
+
+/* =========================================================
+   MOBILE WORK THAT MOVES — RELIABLE AUTO ROTATION
+   ========================================================= */
+(() => {
+  const mq = window.matchMedia('(max-width: 820px)');
+  let timer = null;
+  let resumeTimer = null;
+  let currentIndex = 0;
+
+  function getParts() {
+    const carousel = document.querySelector('.youtube-carousel');
+    if (!carousel) return {};
+    const cards = Array.from(carousel.querySelectorAll('.youtube-card'))
+      .filter(card => card.offsetParent !== null);
+    return { carousel, cards };
+  }
+
+  function goTo(index, smooth = true) {
+    const { carousel, cards } = getParts();
+    if (!carousel || !cards || !cards.length) return;
+    currentIndex = ((index % cards.length) + cards.length) % cards.length;
+    const card = cards[currentIndex];
+    const left = card.offsetLeft - Math.max(0, (carousel.clientWidth - card.offsetWidth) / 2);
+    carousel.scrollTo({
+      left,
+      behavior: smooth ? 'smooth' : 'auto'
+    });
+  }
+
+  function nearestIndex() {
+    const { carousel, cards } = getParts();
+    if (!carousel || !cards || !cards.length) return 0;
+    const center = carousel.scrollLeft + carousel.clientWidth / 2;
+    let best = 0, dist = Infinity;
+    cards.forEach((card, i) => {
+      const c = card.offsetLeft + card.offsetWidth / 2;
+      const d = Math.abs(c - center);
+      if (d < dist) { dist = d; best = i; }
+    });
+    return best;
+  }
+
+  function stop() {
+    if (timer) clearInterval(timer);
+    timer = null;
+  }
+
+  function start() {
+    stop();
+    if (!mq.matches) return;
+    const { carousel, cards } = getParts();
+    if (!carousel || !cards || cards.length < 2) return;
+    timer = setInterval(() => {
+      currentIndex = nearestIndex();
+      goTo(currentIndex + 1, true);
+    }, 500);
+  }
+
+  function pauseAndResume() {
+    stop();
+    if (resumeTimer) clearTimeout(resumeTimer);
+    resumeTimer = setTimeout(() => {
+      currentIndex = nearestIndex();
+      start();
+    }, 1800);
+  }
+
+  function bind() {
+    const { carousel, cards } = getParts();
+    if (!carousel || !cards || !cards.length) return;
+
+    // Prevent duplicate listener binding.
+    if (!carousel.dataset.autoRotateBound) {
+      carousel.dataset.autoRotateBound = 'true';
+      ['touchstart', 'pointerdown'].forEach(evt =>
+        carousel.addEventListener(evt, pauseAndResume, { passive: true })
+      );
+      ['touchend', 'pointerup', 'pointercancel'].forEach(evt =>
+        carousel.addEventListener(evt, pauseAndResume, { passive: true })
+      );
+    }
+
+    currentIndex = nearestIndex();
+    start();
+  }
+
+  window.addEventListener('load', () => setTimeout(bind, 500));
+  window.addEventListener('resize', () => setTimeout(bind, 150));
+  if (mq.addEventListener) mq.addEventListener('change', bind);
+  else mq.addListener(bind);
+})();

@@ -2698,3 +2698,57 @@ p {
     gap: 22px;
   }
 }
+
+
+/* =========================================================
+   MOBILE ONLY — CENTER ONLY THE THREE APPROVED SECTION INTROS
+   ========================================================= */
+@media (max-width: 820px) {
+  /* OUR SERVICES */
+  .services-heading,
+  .services-heading .section-label,
+  .services-heading h2,
+  .services-heading p {
+    text-align: center !important;
+  }
+  .services-heading {
+    justify-items: center !important;
+    align-items: center !important;
+  }
+  .services-heading > * {
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+
+  /* WORK THAT MOVES */
+  .youtube-showcase-heading,
+  .youtube-showcase-heading > div,
+  .youtube-showcase-heading > p,
+  .youtube-showcase-heading h2 {
+    text-align: center !important;
+  }
+  .youtube-showcase-heading {
+    justify-items: center !important;
+    align-items: center !important;
+  }
+  .youtube-showcase-heading > * {
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+
+  /* OUR CLIENTS */
+  .clients-header,
+  .clients-header .section-label,
+  .clients-header h2,
+  .clients-header p {
+    text-align: center !important;
+  }
+  .clients-header {
+    justify-items: center !important;
+    align-items: center !important;
+  }
+  .clients-header > * {
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+}
