@@ -2502,3 +2502,43 @@ p {
     display: none;
   }
 }
+
+/* =========================================================
+   21 SEP 2026 — APPROVED INTER NAV + TIGHTER APPROACH + MOBILE WORK MOTION
+   ========================================================= */
+@media (min-width: 821px) {
+  .main-nav,
+  .main-nav > a,
+  .main-nav .nav-cta {
+    font-family: "Inter", Arial, sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+  }
+
+  /* Bring the statement closer to the preceding section while retaining breathing room. */
+  .brand-statement {
+    padding-top: clamp(68px, 6vw, 96px);
+  }
+}
+
+@media (max-width: 820px) {
+  .main-nav,
+  .main-nav > a,
+  .main-nav .nav-cta {
+    font-family: "Inter", Arial, sans-serif;
+    font-weight: 400;
+  }
+
+  .brand-statement {
+    padding-top: 48px;
+  }
+
+  /* Work That Moves: automatic motion plus native manual swipe on mobile. */
+  .youtube-carousel {
+    scroll-snap-type: none;
+    scrollbar-width: none;
+  }
+  .youtube-carousel::-webkit-scrollbar { display: none; }
+  .youtube-track { animation: none; }
+  .youtube-card[aria-hidden="true"] { display: block; }
+}

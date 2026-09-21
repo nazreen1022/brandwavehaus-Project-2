@@ -260,3 +260,54 @@
     document.head.appendChild(script);
   }
 })();
+
+/* MOBILE WORK THAT MOVES — auto-scroll continuously, pause while the visitor swipes. */
+(() => {
+  const carousel = document.querySelector('.youtube-carousel');
+  const track = document.querySelector('.youtube-track');
+  if (!carousel || !track) return;
+
+  const mobile = window.matchMedia('(max-width: 820px)');
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  let raf = null;
+  let paused = false;
+  let resumeTimer = null;
+
+  const stop = () => {
+    if (raf) cancelAnimationFrame(raf);
+    raf = null;
+  };
+
+  const tick = () => {
+    if (!mobile.matches || reducedMotion.matches) return stop();
+    if (!paused) {
+      const halfway = track.scrollWidth / 2;
+      carousel.scrollLeft += 0.35;
+      if (carousel.scrollLeft >= halfway) carousel.scrollLeft -= halfway;
+    }
+    raf = requestAnimationFrame(tick);
+  };
+
+  const start = () => {
+    stop();
+    if (mobile.matches && !reducedMotion.matches) raf = requestAnimationFrame(tick);
+  };
+
+  const pauseForGesture = () => {
+    paused = true;
+    clearTimeout(resumeTimer);
+  };
+  const resumeAfterGesture = () => {
+    clearTimeout(resumeTimer);
+    resumeTimer = setTimeout(() => { paused = false; }, 1200);
+  };
+
+  carousel.addEventListener('touchstart', pauseForGesture, { passive: true });
+  carousel.addEventListener('touchend', resumeAfterGesture, { passive: true });
+  carousel.addEventListener('pointerdown', pauseForGesture, { passive: true });
+  carousel.addEventListener('pointerup', resumeAfterGesture, { passive: true });
+  carousel.addEventListener('pointercancel', resumeAfterGesture, { passive: true });
+  mobile.addEventListener?.('change', start);
+  reducedMotion.addEventListener?.('change', start);
+  start();
+})();
