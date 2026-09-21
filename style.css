@@ -2284,3 +2284,146 @@ main {
     font-size: 36px;
   }
 }
+
+/* =========================================================
+   21 SEP 2026 — APPROVED TYPOGRAPHY + DESKTOP ALIGNMENT
+   ========================================================= */
+
+/* Paragraph/body copy only: Montserrat Regular 400. */
+p {
+  font-family: "Montserrat", Arial, sans-serif;
+  font-weight: 400;
+}
+
+/* Desktop navigation: Montserrat Light 300, 18px. */
+@media (min-width: 821px) {
+  .main-nav {
+    font-family: "Montserrat", Arial, sans-serif;
+    font-size: 18px;
+    font-weight: 300;
+    gap: clamp(24px, 2.25vw, 42px);
+  }
+
+  .main-nav > a:not(.nav-cta) {
+    font-weight: 300;
+  }
+
+  /* Contact Us: same 18px size, bold, black fill, white text + border. */
+  .main-nav .nav-cta {
+    min-width: 154px;
+    height: 50px;
+    padding: 0 26px;
+    color: #fff;
+    background: #050505;
+    border: 1px solid rgba(255,255,255,.78);
+    border-radius: 999px;
+    font-family: "Montserrat", Arial, sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+  }
+
+  .main-nav .nav-cta:hover,
+  .main-nav .nav-cta:focus-visible {
+    color: #050505;
+    background: #fff;
+  }
+
+  /* ABOUT — approved Option 3: centered, balanced editorial composition. */
+  .about .section-intro {
+    text-align: center;
+    margin-bottom: clamp(62px, 7vw, 105px);
+  }
+
+  .about .section-intro h2 {
+    max-width: 1120px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .about-layout {
+    display: block;
+    max-width: 1050px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .about-statement p {
+    max-width: 900px;
+    margin: 0 auto clamp(38px, 4vw, 62px);
+  }
+
+  .about-copy {
+    max-width: 900px;
+    margin: 0 auto;
+    padding-top: clamp(28px, 3vw, 42px);
+    border-top: 1px solid rgba(255,255,255,.28);
+  }
+
+  .about-copy p {
+    max-width: 820px;
+    margin: 0 auto 22px;
+  }
+
+  /* OUR APPROACH — approved Option 3: centered statement + Mission/Vision side-by-side. */
+  .brand-statement {
+    display: block;
+    text-align: center;
+  }
+
+  .brand-statement > .section-label {
+    display: block;
+    margin-bottom: clamp(30px, 3vw, 48px);
+  }
+
+  .brand-statement > h2 {
+    max-width: 1180px;
+    margin: 0 auto clamp(72px, 8vw, 120px);
+    font-size: clamp(54px, 6.6vw, 112px);
+  }
+
+  .brand-statement .mission-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 0;
+    border-top: 1px solid rgba(0,0,0,.24);
+  }
+
+  .brand-statement .mission-grid article {
+    max-width: none;
+    padding: 32px clamp(28px, 4vw, 64px) 0;
+    border-top: 0;
+    text-align: center;
+  }
+
+  .brand-statement .mission-grid article + article {
+    border-left: 1px solid rgba(0,0,0,.18);
+  }
+
+  .brand-statement .statement-label {
+    margin-bottom: 28px;
+  }
+
+  .brand-statement .mission-grid p {
+    margin: 0 auto;
+    max-width: 450px;
+  }
+}
+
+/* Mobile menu typography follows the approved Montserrat treatment. */
+@media (max-width: 820px) {
+  .main-nav {
+    font-family: "Montserrat", Arial, sans-serif;
+    font-weight: 300;
+  }
+  .main-nav > a:not(.nav-cta) { font-weight: 300; }
+  .main-nav .nav-cta {
+    font-family: "Montserrat", Arial, sans-serif;
+    font-weight: 700;
+    color: #fff;
+    background: #050505;
+    border: 1px solid rgba(255,255,255,.78);
+  }
+}
