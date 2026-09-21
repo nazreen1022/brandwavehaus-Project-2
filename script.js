@@ -27,7 +27,57 @@
     }
   });
 
-  /* CONTACT — native FormSubmit POST is reliable on static hosting. */
+  /* CONTACT — submit to FormSubmit in the background so visitors stay on-page. */
+  const contactForm = document.querySelector(".contact-form");
+  const formStatus = contactForm?.querySelector(".form-status");
+  const submitButton = contactForm?.querySelector(".submit-button");
+
+  contactForm?.addEventListener("submit", async event => {
+    event.preventDefault();
+
+    if (!contactForm.checkValidity()) {
+      contactForm.reportValidity();
+      return;
+    }
+
+    const originalButtonText = submitButton?.textContent;
+    if (submitButton) {
+      submitButton.disabled = true;
+      submitButton.textContent = "Sending...";
+    }
+    if (formStatus) {
+      formStatus.textContent = "";
+      formStatus.classList.remove("is-success", "is-error");
+    }
+
+    try {
+      const endpoint = contactForm.action.replace("formsubmit.co/", "formsubmit.co/ajax/");
+      const response = await fetch(endpoint, {
+        method: "POST",
+        body: new FormData(contactForm),
+        headers: { "Accept": "application/json" }
+      });
+
+      if (!response.ok) throw new Error("Form submission failed");
+
+      contactForm.reset();
+      if (formStatus) {
+        formStatus.textContent = "Thank you! Your enquiry has been sent successfully. We'll get back to you shortly.";
+        formStatus.classList.add("is-success");
+        formStatus.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      }
+    } catch (error) {
+      if (formStatus) {
+        formStatus.textContent = "Sorry, we couldn't send your enquiry. Please try again.";
+        formStatus.classList.add("is-error");
+      }
+    } finally {
+      if (submitButton) {
+        submitButton.disabled = false;
+        submitButton.textContent = originalButtonText || "Send enquiry";
+      }
+    }
+  });
 
   /* WORK — keep the carousel and cinematic player on one approved source list. */
   const allVideoIds = [
