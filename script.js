@@ -108,7 +108,7 @@
   /* CLIENTS — 22 ImgBB-hosted logos only. */
   const clients = [
     ["https://i.ibb.co/ZzhKMnP7/IMG-9604.jpg", "United Motors & Heavy Equipment"],
-    ["https://i.ibb.co/0pD2JQbC/aix-investment-group.jpg", "AIX Investment Group"],
+    ["https://i.ibb.co/0RDj3X3M/AIX-INVESTMENT-GROUP-UPDATED-LOGO.png", "AIX Investment Group"],
     ["https://i.ibb.co/TDw6cnmJ/al-faridah-building.png", "Al Faridah"],
     ["https://i.ibb.co/fzsKsp0v/baraka.jpg", "Baraka"],
     ["https://i.ibb.co/9myTSWKH/MKN-Global.jpg", "MKN Global"],
