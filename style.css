@@ -2789,46 +2789,34 @@ p {
   }
 }
 
-/* CLIENTS: one clean 22-logo set only — no duplicate/cloned marquee set */
-.client-track {
-  animation: none !important;
-  transform: none !important;
-}
-.client-marquee {
-  overflow-x: auto !important;
-  scrollbar-width: none;
-}
-.client-marquee::-webkit-scrollbar { display: none; }
+/* CLIENTS — legacy static override removed.
+   Movement is controlled by the final JS marquee implementation below. */
 
-/* =========================================================
-   OUR CLIENTS — CONTINUOUS SINGLE-SET MARQUEE
-   Keeps exactly one copy of each of the 22 logos in HTML.
-   ========================================================= */
-.client-marquee {
-  overflow: hidden !important;
-}
 
-.client-track {
-  display: flex !important;
-  flex-wrap: nowrap !important;
-  width: max-content !important;
-  will-change: transform;
-  animation: clientsSingleSetMarquee 85s linear infinite !important;
-}
-
-.client-item {
-  flex: 0 0 auto !important;
-}
-
-@keyframes clientsSingleSetMarquee {
-  from { transform: translateX(100vw); }
-  to   { transform: translateX(-100%); }
-}
 
 /* =========================================================
    OUR CLIENTS — JS-DRIVEN CONTINUOUS MARQUEE
    CSS animation is intentionally disabled here because the
    movement is driven frame-by-frame in script.js on all sizes.
+   ========================================================= */
+.client-marquee {
+  overflow: hidden !important;
+  position: relative;
+}
+.client-track {
+  display: flex !important;
+  flex-wrap: nowrap !important;
+  width: max-content !important;
+  animation: none !important;
+  will-change: transform;
+}
+.client-item {
+  flex: 0 0 auto !important;
+}
+
+/* =========================================================
+   OUR CLIENTS — FINAL CONTINUOUS MARQUEE
+   JavaScript controls transform; never override transform here.
    ========================================================= */
 .client-marquee {
   overflow: hidden !important;
