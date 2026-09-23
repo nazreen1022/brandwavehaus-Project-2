@@ -345,7 +345,7 @@
 
     let offset = 0;
     let last = performance.now();
-    const pixelsPerSecond = 22; // smooth, slow continuous motion
+    const pixelsPerSecond = 32; // smooth, slow continuous motion
 
     function frame(now) {
       const dt = Math.min((now - last) / 1000, 0.05);
