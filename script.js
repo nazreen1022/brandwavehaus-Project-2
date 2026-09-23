@@ -105,35 +105,35 @@
     ].join("");
   }
 
-  /* CLIENTS — the original logo set is completely replaced here. */
+  /* CLIENTS — 22 ImgBB-hosted logos only. */
   const clients = [
-    ["https://user34551.na.imgto.link/public/20260921/screenshot-2026-08-28-161548.avif", "United Motors"],
-    ["https://user34551.na.imgto.link/public/20260921/seva-logo.avif", "SEVA"],
-    ["https://user34551.na.imgto.link/public/20260921/sealed-air-new.avif", "Sealed Air"],
-    ["https://user34551.na.imgto.link/public/20260921/screenshot-2026-09-21-at-10-48-23-am-1.avif", "Aptitude Cafe"],
-    ["./relictum.png", "Relictum"],
-    ["./aix-investment-group.png", "AIX Investment Group"],
-    ["./sharjah-children.png", "Sharjah Children"],
-    ["https://user34551.na.imgto.link/public/20260921/sharjah-book-authority.avif", "Sharjah Book Authority"],
-    ["https://user34551.na.imgto.link/public/20260921/parivar-restaurant.avif", "Parivar Restaurant"],
-    ["./mkn-global.jpeg", "MKN Global"],
-    ["https://user34551.na.imgto.link/public/20260921/mizu-j-restaurant.avif", "Mizu"],
-    ["https://user34551.na.imgto.link/public/20260921/manzo-sushi.avif", "Manzo Sushi"],
-    ["https://user34551.na.imgto.link/public/20260921/lyla-blanc.avif", "Lyla Blanc"],
-    ["https://user34551.na.imgto.link/public/20260921/logo-128337307.avif", "AIM"],
-    ["https://user34551.na.imgto.link/public/20260921/gonpachi-300x300.avif", "Gonpachi"],
-    ["https://user34551.na.imgto.link/public/20260921/expo-logo.avif", "Expo"],
-    ["https://user34551.na.imgto.link/public/20260921/elite-private-school-logo.avif", "Elite Private School"],
-    ["https://user34551.na.imgto.link/public/20260921/daarzood.avif", "Daar Zood"],
-    ["./baraka.jpeg", "Baraka"],
-    ["./al-faridah-building.png", "Al Faridah Building"],
-    ["https://user34551.na.imgto.link/public/20260921/al-bayt-mitwahid-logo.avif", "Al Bayt Mitwahid"],
-    ["https://user34551.na.imgto.link/public/20260921/ahic-logo-scaled.avif", "AHIC"]
+    ["https://i.ibb.co/ZzhKMnP7/IMG-9604.jpg", "United Motors & Heavy Equipment"],
+    ["https://i.ibb.co/0pD2JQbC/aix-investment-group.jpg", "AIX Investment Group"],
+    ["https://i.ibb.co/TDw6cnmJ/al-faridah-building.png", "Al Faridah"],
+    ["https://i.ibb.co/fzsKsp0v/baraka.jpg", "Baraka"],
+    ["https://i.ibb.co/9myTSWKH/MKN-Global.jpg", "MKN Global"],
+    ["https://i.ibb.co/ymc6mt7T/Screenshot-2026-09-21-at-10-41-25-AM.png", "Relictum"],
+    ["https://i.ibb.co/TMyfLCvc/Screenshot-2026-09-21-at-10-48-23-AM.png", "Sharjah Children"],
+    ["https://i.ibb.co/G4qDN9nj/AHIC-logo-scaled.webp", "AHIC"],
+    ["https://i.ibb.co/yFfsxWQG/al-bayt-mitwahid-logo.jpg", "Al Bayt Mitwahid"],
+    ["https://i.ibb.co/R4PjSC45/daarzood.jpg", "Daar Zood"],
+    ["https://i.ibb.co/vxkDRn1J/elite-private-school-logo.jpg", "Elite Private School"],
+    ["https://i.ibb.co/P7xnxr5/expo-logo.png", "Expo"],
+    ["https://i.ibb.co/vCNDgyVt/gonpachi-300x300.png", "Gonpachi"],
+    ["https://i.ibb.co/0y9zpQVD/lyla-blanc.jpg", "Lyla Blanc"],
+    ["https://i.ibb.co/Z1wJ9DJS/manzo-sushi.jpg", "Manzo Sushi"],
+    ["https://i.ibb.co/gLyPh6KP/mizu-j-restaurant.png", "Mizu"],
+    ["https://i.ibb.co/Fb5Q3VjP/parivar-restaurant.jpg", "Parivar Restaurant"],
+    ["https://i.ibb.co/d4YV7PQR/sealed-air-new.avif", "Sealed Air"],
+    ["https://i.ibb.co/RGNtZVwQ/seva-logo.jpg", "SEVA"],
+    ["https://i.ibb.co/JWd92GHK/sharjah-book-authority.png", "Sharjah Book Authority"],
+    ["https://i.ibb.co/SXGWHJ7x/sharjah-children-biennial-logo.jpg", "Sharjah Children Biennial"],
+    ["https://i.ibb.co/B8ssPt9/logo-128337307.png", "AIM"]
   ];
 
   const clientTrack = document.querySelector(".client-track");
   if (clientTrack) {
-    const wideClients = new Set([0, 2, 3, 5, 7, 9, 12, 16, 19, 20, 21]);
+    const wideClients = new Set([0, 5, 11, 17, 19, 21]);
     const logo = ([src, alt], index, duplicate = false) => `
       <div class="client-item${wideClients.has(index) ? " client-wide" : ""}"
            ${duplicate ? 'aria-hidden="true"' : ""}>
