@@ -2799,3 +2799,28 @@ p {
   scrollbar-width: none;
 }
 .client-marquee::-webkit-scrollbar { display: none; }
+
+/* =========================================================
+   OUR CLIENTS — CONTINUOUS SINGLE-SET MARQUEE
+   Keeps exactly one copy of each of the 22 logos in HTML.
+   ========================================================= */
+.client-marquee {
+  overflow: hidden !important;
+}
+
+.client-track {
+  display: flex !important;
+  flex-wrap: nowrap !important;
+  width: max-content !important;
+  will-change: transform;
+  animation: clientsSingleSetMarquee 85s linear infinite !important;
+}
+
+.client-item {
+  flex: 0 0 auto !important;
+}
+
+@keyframes clientsSingleSetMarquee {
+  from { transform: translateX(100vw); }
+  to   { transform: translateX(-100%); }
+}
