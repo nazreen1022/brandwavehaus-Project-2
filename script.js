@@ -311,3 +311,61 @@
   reducedMotion.addEventListener?.('change', start);
   start();
 })();
+
+
+/* =========================================================
+   OUR CLIENTS — CONTINUOUS MARQUEE (DESKTOP + MOBILE)
+   Source HTML contains 22 unique logos once.
+   A runtime clone of the whole set is created only to make
+   the animation seamless, then the track moves continuously.
+   ========================================================= */
+(function initClientsContinuousMarquee() {
+  function start() {
+    const viewport = document.querySelector(".client-marquee");
+    const track = document.querySelector(".client-track");
+    if (!viewport || !track) return;
+
+    // Remove any prior runtime clones if script is re-run.
+    track.querySelectorAll('[data-runtime-marquee-clone="true"]').forEach(el => el.remove());
+
+    const originals = Array.from(track.children).filter(
+      el => el.classList && el.classList.contains("client-item")
+    );
+    if (!originals.length) return;
+
+    // One runtime duplicate set is required for a truly seamless infinite loop.
+    originals.forEach(el => {
+      const clone = el.cloneNode(true);
+      clone.setAttribute("data-runtime-marquee-clone", "true");
+      clone.setAttribute("aria-hidden", "true");
+      const img = clone.querySelector("img");
+      if (img) img.alt = "";
+      track.appendChild(clone);
+    });
+
+    let offset = 0;
+    let last = performance.now();
+    const pixelsPerSecond = 22; // smooth, slow continuous motion
+
+    function frame(now) {
+      const dt = Math.min((now - last) / 1000, 0.05);
+      last = now;
+      offset += pixelsPerSecond * dt;
+
+      // First half is the width of the original 22-logo set.
+      const resetAt = track.scrollWidth / 2;
+      if (resetAt > 0 && offset >= resetAt) offset -= resetAt;
+
+      track.style.transform = `translate3d(${-offset}px,0,0)`;
+      requestAnimationFrame(frame);
+    }
+
+    requestAnimationFrame(frame);
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", start, { once: true });
+  } else {
+    start();
+  }
+})();

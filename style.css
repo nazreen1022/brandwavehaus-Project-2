@@ -2824,3 +2824,23 @@ p {
   from { transform: translateX(100vw); }
   to   { transform: translateX(-100%); }
 }
+
+/* =========================================================
+   OUR CLIENTS — JS-DRIVEN CONTINUOUS MARQUEE
+   CSS animation is intentionally disabled here because the
+   movement is driven frame-by-frame in script.js on all sizes.
+   ========================================================= */
+.client-marquee {
+  overflow: hidden !important;
+  position: relative;
+}
+.client-track {
+  display: flex !important;
+  flex-wrap: nowrap !important;
+  width: max-content !important;
+  animation: none !important;
+  will-change: transform;
+}
+.client-item {
+  flex: 0 0 auto !important;
+}
