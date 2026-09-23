@@ -131,7 +131,7 @@
     ["https://i.ibb.co/B8ssPt9/logo-128337307.png", "AIM"]
   ];
 
-  const clientTrack = document.querySelector(".client-track");
+  const clientTrack = document.querySelector(".client-track-disabled");
   if (clientTrack) {
     const wideClients = new Set([0, 5, 11, 17, 19, 21]);
     const logo = ([src, alt], index, duplicate = false) => `

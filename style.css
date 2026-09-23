@@ -2788,3 +2788,14 @@ p {
     to   { transform: translateX(-50%); }
   }
 }
+
+/* CLIENTS: one clean 22-logo set only — no duplicate/cloned marquee set */
+.client-track {
+  animation: none !important;
+  transform: none !important;
+}
+.client-marquee {
+  overflow-x: auto !important;
+  scrollbar-width: none;
+}
+.client-marquee::-webkit-scrollbar { display: none; }
