@@ -87,6 +87,9 @@
     "xEPIr9BpD5Y", "THZbAarEcdA", "slfnhUzeXzw", "T-rdDiLk0hI"
   ];
 
+  /* WORK THAT MOVES — newest project appears first in the YouTube list. */
+  const showcaseVideoIds = ["PPTj3IccdfI", ...allVideoIds];
+
   const youtubeTrack = document.querySelector(".youtube-track");
   if (youtubeTrack) {
     const card = (id, duplicate = false) => `
@@ -100,8 +103,8 @@
         </span>
       </a>`;
     youtubeTrack.innerHTML = [
-      ...allVideoIds.map(id => card(id)),
-      ...allVideoIds.map(id => card(id, true))
+      ...showcaseVideoIds.map(id => card(id)),
+      ...showcaseVideoIds.map(id => card(id, true))
     ].join("");
   }
 
@@ -162,7 +165,7 @@
   });
 
   /* OUR WORK IN MOTION — original approved order, 1 → 12 → 1. */
-  const workVideoIds = allVideoIds;
+  const workVideoIds = showcaseVideoIds;
   const mount = document.getElementById("workVideoPlayer");
   if (!mount) return;
   const wrap = document.querySelector(".work-video-wrap");
