@@ -52,13 +52,25 @@
 
     try {
       const endpoint = contactForm.action.replace("formsubmit.co/", "formsubmit.co/ajax/");
-      const response = await fetch(endpoint, {
-        method: "POST",
-        body: new FormData(contactForm),
-        headers: { "Accept": "application/json" }
-      });
+      const formData = new FormData(contactForm);
+      let response;
 
-      if (!response.ok) throw new Error("Form submission failed");
+      /* FormSubmit can occasionally time out; retry without leaving the page. */
+      for (let attempt = 0; attempt < 3; attempt += 1) {
+        try {
+          response = await fetch(endpoint, {
+            method: "POST",
+            body: formData,
+            headers: { "Accept": "application/json" }
+          });
+          if (response.ok) break;
+        } catch (requestError) {
+          if (attempt === 2) throw requestError;
+        }
+        await new Promise(resolve => window.setTimeout(resolve, 1200 * (attempt + 1)));
+      }
+
+      if (!response?.ok) throw new Error("Form submission failed");
 
       contactForm.reset();
       if (formStatus) {
@@ -68,7 +80,7 @@
       }
     } catch (error) {
       if (formStatus) {
-        formStatus.textContent = "Sorry, we couldn't send your enquiry. Please try again.";
+        formStatus.textContent = "Sorry, we couldn't send your enquiry right now. Please try again shortly or use the WhatsApp button.";
         formStatus.classList.add("is-error");
       }
     } finally {
@@ -79,19 +91,12 @@
     }
   });
 
-  /* WORK — keep the carousel and cinematic player on one approved source list. */
-  const allVideoIds = [
-    "E7znSK4I4a8", "s_jIQGgLkqw", "k8FMybLJoVU", "6zsE9mH-yyk",
+  /* WORK — one unique ordered list controls both video sections. */
+  const videoIds = [
+    "PPTj3IccdfI", "E7znSK4I4a8", "s_jIQGgLkqw", "k8FMybLJoVU", "6zsE9mH-yyk",
     "SzWGiMlw9vs", "hh5cMMWTzuU", "u1WVA97LZF8", "9B4umKSk0-g",
     "O3Q0_q4TSXM", "xXkGI9s5FR0", "kxy9eNbpNic", "hyvojaX4d4w",
     "xEPIr9BpD5Y", "THZbAarEcdA", "slfnhUzeXzw", "T-rdDiLk0hI"
-  ];
-
-  /* WORK THAT MOVES — newest project appears first in the YouTube list. */
-  const featuredVideoId = "PPTj3IccdfI";
-  const showcaseVideoIds = [
-    featuredVideoId,
-    ...allVideoIds.filter(id => id !== featuredVideoId)
   ];
 
   const youtubeTrack = document.querySelector(".youtube-track");
@@ -107,8 +112,8 @@
         </span>
       </a>`;
     youtubeTrack.innerHTML = [
-      ...showcaseVideoIds.map(id => card(id)),
-      ...showcaseVideoIds.map(id => card(id, true))
+      ...videoIds.map(id => card(id)),
+      ...videoIds.map(id => card(id, true))
     ].join("");
   }
 
@@ -169,7 +174,7 @@
   });
 
   /* OUR WORK IN MOTION — original approved order, 1 → 12 → 1. */
-  const workVideoIds = showcaseVideoIds;
+  const workVideoIds = videoIds;
   const mount = document.getElementById("workVideoPlayer");
   if (!mount) return;
   const wrap = document.querySelector(".work-video-wrap");
@@ -218,6 +223,8 @@
           iframe.setAttribute("tabindex", "-1");
           sizePlayer();
           event.target.mute();
+          currentIndex = 0;
+          event.target.loadVideoById({ videoId: workVideoIds[0], startSeconds: 0 });
           event.target.playVideo();
           window.setTimeout(() => {
             if (event.target.getPlayerState() !== window.YT.PlayerState.PLAYING) {
