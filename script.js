@@ -27,16 +27,19 @@
     }
   });
 
-  /* CONTACT — submit to FormSubmit in the background so visitors stay on-page. */
+  /* CONTACT — submit to Google Forms in the background so visitors stay on-page. */
   const contactForm = document.querySelector(".contact-form");
   const formStatus = contactForm?.querySelector(".form-status");
   const submitButton = contactForm?.querySelector(".submit-button");
   const whatsappFallback = contactForm?.querySelector(".form-whatsapp-fallback");
+  const googleResponseFrame = document.querySelector(".google-form-response-frame");
+  let googleFormSubmitting = false;
+  let googleFormTimeout;
+  let pendingFormValues;
 
-  contactForm?.addEventListener("submit", async event => {
-    event.preventDefault();
-
+  contactForm?.addEventListener("submit", event => {
     if (!contactForm.checkValidity()) {
+      event.preventDefault();
       contactForm.reportValidity();
       return;
     }
@@ -51,48 +54,52 @@
       formStatus.classList.remove("is-success", "is-error");
     }
     if (whatsappFallback) whatsappFallback.hidden = true;
-
-    try {
-      const endpoint = contactForm.action.replace("formsubmit.co/", "formsubmit.co/ajax/");
-      const response = await fetch(endpoint, {
-        method: "POST",
-        body: new FormData(contactForm),
-        headers: { "Accept": "application/json" }
-      });
-
-      if (!response.ok) throw new Error("Form submission failed");
-
-      contactForm.reset();
+    pendingFormValues = new FormData(contactForm);
+    googleFormSubmitting = true;
+    window.clearTimeout(googleFormTimeout);
+    googleFormTimeout = window.setTimeout(() => {
+      if (!googleFormSubmitting) return;
+      googleFormSubmitting = false;
       if (formStatus) {
-        formStatus.textContent = "Thank you! Your enquiry has been sent successfully. We'll get back to you shortly.";
-        formStatus.classList.add("is-success");
-        formStatus.scrollIntoView({ behavior: "smooth", block: "nearest" });
-      }
-    } catch (error) {
-      if (formStatus) {
-        formStatus.textContent = "Sorry, we couldn't send your enquiry by email. Please continue on WhatsApp so we don't miss your message.";
+        formStatus.textContent = "Sorry, we couldn't confirm your enquiry. Please continue on WhatsApp so we don't miss your message.";
         formStatus.classList.add("is-error");
       }
       if (whatsappFallback) {
-        const values = new FormData(contactForm);
         const whatsappMessage = [
           "Hello Brandwave Haus, I tried to submit an enquiry through your website.",
           "",
-          `Name: ${values.get("name") || ""}`,
-          `Email: ${values.get("email") || ""}`,
-          `Contact number: ${values.get("phone") || ""}`,
-          `Company: ${values.get("company") || ""}`,
+          `Name: ${pendingFormValues?.get("entry.359020301") || ""}`,
+          `Email: ${pendingFormValues?.get("entry.1152663072") || ""}`,
+          `Contact number: ${pendingFormValues?.get("entry.651675800") || ""}`,
+          `Company: ${pendingFormValues?.get("entry.937861723") || ""}`,
           "",
-          `Message: ${values.get("message") || ""}`
+          `Message: ${pendingFormValues?.get("entry.83900709") || ""}`
         ].join("\n");
         whatsappFallback.href = `https://wa.me/971561022140?text=${encodeURIComponent(whatsappMessage)}`;
         whatsappFallback.hidden = false;
       }
-    } finally {
       if (submitButton) {
         submitButton.disabled = false;
         submitButton.textContent = originalButtonText || "Send enquiry";
       }
+    }, 20000);
+  });
+
+  googleResponseFrame?.addEventListener("load", () => {
+    if (!googleFormSubmitting) return;
+    googleFormSubmitting = false;
+    window.clearTimeout(googleFormTimeout);
+    contactForm.reset();
+    if (formStatus) {
+      formStatus.textContent = "Thank you! Your enquiry has been received. We'll get back to you shortly.";
+      formStatus.classList.remove("is-error");
+      formStatus.classList.add("is-success");
+      formStatus.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    }
+    if (whatsappFallback) whatsappFallback.hidden = true;
+    if (submitButton) {
+      submitButton.disabled = false;
+      submitButton.textContent = "Send enquiry";
     }
   });
 

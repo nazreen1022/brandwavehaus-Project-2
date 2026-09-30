@@ -1755,6 +1755,16 @@ section[id] { scroll-margin-top: 110px; }
   color: #000000;
 }
 .form-whatsapp-fallback[hidden] { display: none; }
+.google-form-response-frame {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  border: 0;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  overflow: hidden;
+  white-space: nowrap;
+}
 .submit-button:disabled { opacity: .65; cursor: wait; }
 .contact-form input:focus, .contact-form textarea:focus { border-bottom-color: #fff; }
 a:focus-visible, .nav-button:focus-visible, button:focus-visible { outline: 2px solid #999; outline-offset: 5px; }
