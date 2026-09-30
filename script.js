@@ -88,7 +88,11 @@
   ];
 
   /* WORK THAT MOVES — newest project appears first in the YouTube list. */
-  const showcaseVideoIds = ["PPTj3IccdfI", ...allVideoIds];
+  const featuredVideoId = "PPTj3IccdfI";
+  const showcaseVideoIds = [
+    featuredVideoId,
+    ...allVideoIds.filter(id => id !== featuredVideoId)
+  ];
 
   const youtubeTrack = document.querySelector(".youtube-track");
   if (youtubeTrack) {
