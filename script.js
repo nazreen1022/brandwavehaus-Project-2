@@ -216,11 +216,18 @@
     }, delay);
   }
 
+  function disableCaptions(target) {
+    if (!target || typeof target.unloadModule !== "function") return;
+    try { target.unloadModule("captions"); } catch (_) {}
+    try { target.unloadModule("cc"); } catch (_) {}
+  }
+
   function createPlayer() {
     if (player || !window.YT?.Player) return;
     const playerVars = {
       autoplay: 1, mute: 1, controls: 0, playsinline: 1,
-      rel: 0, disablekb: 1, fs: 0, iv_load_policy: 3
+      rel: 0, disablekb: 1, fs: 0, iv_load_policy: 3,
+      cc_load_policy: 0
     };
     if (/^https?:$/.test(window.location.protocol)) playerVars.origin = window.location.origin;
     player = new window.YT.Player("workVideoPlayer", {
@@ -234,6 +241,7 @@
           iframe.setAttribute("referrerpolicy", "strict-origin-when-cross-origin");
           iframe.setAttribute("tabindex", "-1");
           sizePlayer();
+          disableCaptions(event.target);
           event.target.mute();
           event.target.playVideo();
           window.setTimeout(() => {
@@ -245,6 +253,7 @@
         onStateChange(event) {
           if (event.data === window.YT.PlayerState.PLAYING) {
             consecutiveErrors = 0;
+            disableCaptions(event.target);
             mobilePlayButton?.classList.remove("is-visible");
           }
           if (event.data === window.YT.PlayerState.ENDED) playNext();
