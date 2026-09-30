@@ -27,7 +27,7 @@
     }
   });
 
-  /* CONTACT — original working FormSubmit AJAX flow; visitors stay on-page. */
+  /* CONTACT — submit to FormSubmit in the background so visitors stay on-page. */
   const contactForm = document.querySelector(".contact-form");
   const formStatus = contactForm?.querySelector(".form-status");
   const submitButton = contactForm?.querySelector(".submit-button");
@@ -57,9 +57,8 @@
         body: new FormData(contactForm),
         headers: { "Accept": "application/json" }
       });
-      const result = await response.json().catch(() => null);
-      const delivered = response.ok && (result?.success === true || result?.success === "true");
-      if (!delivered) throw new Error(result?.message || "Form submission failed");
+
+      if (!response.ok) throw new Error("Form submission failed");
 
       contactForm.reset();
       if (formStatus) {
@@ -69,7 +68,7 @@
       }
     } catch (error) {
       if (formStatus) {
-        formStatus.textContent = "Sorry, we couldn't confirm delivery of your enquiry. Please try again or use the WhatsApp button.";
+        formStatus.textContent = "Sorry, we couldn't send your enquiry. Please try again.";
         formStatus.classList.add("is-error");
       }
     } finally {
@@ -80,8 +79,8 @@
     }
   });
 
-  /* WORK — one unique ordered list controls both video sections. */
-  const videoIds = [
+  /* WORK — keep the carousel and cinematic player on one approved source list. */
+  const allVideoIds = [
     "PPTj3IccdfI", "E7znSK4I4a8", "s_jIQGgLkqw", "k8FMybLJoVU", "6zsE9mH-yyk",
     "SzWGiMlw9vs", "hh5cMMWTzuU", "u1WVA97LZF8", "9B4umKSk0-g",
     "O3Q0_q4TSXM", "xXkGI9s5FR0", "kxy9eNbpNic", "hyvojaX4d4w",
@@ -101,8 +100,8 @@
         </span>
       </a>`;
     youtubeTrack.innerHTML = [
-      ...videoIds.map(id => card(id)),
-      ...videoIds.map(id => card(id, true))
+      ...allVideoIds.map(id => card(id)),
+      ...allVideoIds.map(id => card(id, true))
     ].join("");
   }
 
@@ -163,7 +162,7 @@
   });
 
   /* OUR WORK IN MOTION — original approved order, 1 → 12 → 1. */
-  const workVideoIds = videoIds;
+  const workVideoIds = allVideoIds;
   const mount = document.getElementById("workVideoPlayer");
   if (!mount) return;
   const wrap = document.querySelector(".work-video-wrap");
@@ -212,8 +211,6 @@
           iframe.setAttribute("tabindex", "-1");
           sizePlayer();
           event.target.mute();
-          currentIndex = 0;
-          event.target.loadVideoById({ videoId: workVideoIds[0], startSeconds: 0 });
           event.target.playVideo();
           window.setTimeout(() => {
             if (event.target.getPlayerState() !== window.YT.PlayerState.PLAYING) {
