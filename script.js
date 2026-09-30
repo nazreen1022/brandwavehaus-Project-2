@@ -27,15 +27,17 @@
     }
   });
 
-  /* CONTACT — submit to FormSubmit in the background so visitors stay on-page. */
+  /* CONTACT — submit through a hidden frame so visitors stay on-page. */
   const contactForm = document.querySelector(".contact-form");
   const formStatus = contactForm?.querySelector(".form-status");
   const submitButton = contactForm?.querySelector(".submit-button");
+  const submitFrame = document.querySelector(".contact-submit-frame");
+  let formIsSubmitting = false;
+  let formTimeout;
 
-  contactForm?.addEventListener("submit", async event => {
-    event.preventDefault();
-
+  contactForm?.addEventListener("submit", event => {
     if (!contactForm.checkValidity()) {
+      event.preventDefault();
       contactForm.reportValidity();
       return;
     }
@@ -49,45 +51,36 @@
       formStatus.textContent = "";
       formStatus.classList.remove("is-success", "is-error");
     }
-
-    try {
-      const endpoint = contactForm.action.replace("formsubmit.co/", "formsubmit.co/ajax/");
-      const formData = new FormData(contactForm);
-      let response;
-
-      /* FormSubmit can occasionally time out; retry without leaving the page. */
-      for (let attempt = 0; attempt < 3; attempt += 1) {
-        try {
-          response = await fetch(endpoint, {
-            method: "POST",
-            body: formData,
-            headers: { "Accept": "application/json" }
-          });
-          if (response.ok) break;
-        } catch (requestError) {
-          if (attempt === 2) throw requestError;
-        }
-        await new Promise(resolve => window.setTimeout(resolve, 1200 * (attempt + 1)));
-      }
-
-      if (!response?.ok) throw new Error("Form submission failed");
-
-      contactForm.reset();
-      if (formStatus) {
-        formStatus.textContent = "Thank you! Your enquiry has been sent successfully. We'll get back to you shortly.";
-        formStatus.classList.add("is-success");
-        formStatus.scrollIntoView({ behavior: "smooth", block: "nearest" });
-      }
-    } catch (error) {
+    formIsSubmitting = true;
+    window.clearTimeout(formTimeout);
+    formTimeout = window.setTimeout(() => {
+      if (!formIsSubmitting) return;
+      formIsSubmitting = false;
       if (formStatus) {
         formStatus.textContent = "Sorry, we couldn't send your enquiry right now. Please try again shortly or use the WhatsApp button.";
         formStatus.classList.add("is-error");
       }
-    } finally {
       if (submitButton) {
         submitButton.disabled = false;
         submitButton.textContent = originalButtonText || "Send enquiry";
       }
+    }, 25000);
+  });
+
+  submitFrame?.addEventListener("load", () => {
+    if (!formIsSubmitting) return;
+    formIsSubmitting = false;
+    window.clearTimeout(formTimeout);
+    contactForm.reset();
+    if (formStatus) {
+      formStatus.textContent = "Thank you! Your enquiry has been sent successfully. We'll get back to you shortly.";
+      formStatus.classList.remove("is-error");
+      formStatus.classList.add("is-success");
+      formStatus.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    }
+    if (submitButton) {
+      submitButton.disabled = false;
+      submitButton.textContent = "Send enquiry";
     }
   });
 
