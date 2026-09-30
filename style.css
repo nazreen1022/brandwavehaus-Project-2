@@ -1731,6 +1731,30 @@ section[id] { scroll-margin-top: 110px; }
 .form-status:empty { display: none; }
 .form-status.is-success { color: #d3e8d5; }
 .form-status.is-error { color: #f0b8b8; }
+.form-whatsapp-fallback {
+  width: fit-content;
+  min-height: 48px;
+  margin-top: 16px;
+  padding: 13px 22px;
+  border: 1px solid #ffffff;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  color: #ffffff;
+  font-family: "Inter", sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: background-color 180ms ease, color 180ms ease;
+}
+.form-whatsapp-fallback:hover,
+.form-whatsapp-fallback:focus-visible {
+  background: #ffffff;
+  color: #000000;
+}
+.form-whatsapp-fallback[hidden] { display: none; }
 .submit-button:disabled { opacity: .65; cursor: wait; }
 .contact-form input:focus, .contact-form textarea:focus { border-bottom-color: #fff; }
 a:focus-visible, .nav-button:focus-visible, button:focus-visible { outline: 2px solid #999; outline-offset: 5px; }

@@ -31,6 +31,7 @@
   const contactForm = document.querySelector(".contact-form");
   const formStatus = contactForm?.querySelector(".form-status");
   const submitButton = contactForm?.querySelector(".submit-button");
+  const whatsappFallback = contactForm?.querySelector(".form-whatsapp-fallback");
 
   contactForm?.addEventListener("submit", async event => {
     event.preventDefault();
@@ -49,6 +50,7 @@
       formStatus.textContent = "";
       formStatus.classList.remove("is-success", "is-error");
     }
+    if (whatsappFallback) whatsappFallback.hidden = true;
 
     try {
       const endpoint = contactForm.action.replace("formsubmit.co/", "formsubmit.co/ajax/");
@@ -68,8 +70,23 @@
       }
     } catch (error) {
       if (formStatus) {
-        formStatus.textContent = "Sorry, we couldn't send your enquiry. Please try again.";
+        formStatus.textContent = "Sorry, we couldn't send your enquiry by email. Please continue on WhatsApp so we don't miss your message.";
         formStatus.classList.add("is-error");
+      }
+      if (whatsappFallback) {
+        const values = new FormData(contactForm);
+        const whatsappMessage = [
+          "Hello Brandwave Haus, I tried to submit an enquiry through your website.",
+          "",
+          `Name: ${values.get("name") || ""}`,
+          `Email: ${values.get("email") || ""}`,
+          `Contact number: ${values.get("phone") || ""}`,
+          `Company: ${values.get("company") || ""}`,
+          "",
+          `Message: ${values.get("message") || ""}`
+        ].join("\n");
+        whatsappFallback.href = `https://wa.me/971561022140?text=${encodeURIComponent(whatsappMessage)}`;
+        whatsappFallback.hidden = false;
       }
     } finally {
       if (submitButton) {
