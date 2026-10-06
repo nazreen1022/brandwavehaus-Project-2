@@ -2866,3 +2866,9 @@ p {
 .client-item {
   flex: 0 0 auto !important;
 }
+
+/* Official supplied logo, preserving artwork and slogan placement. */
+.logo-window{display:block;position:relative;width:250px;aspect-ratio:352 / 55;overflow:hidden;flex-shrink:0;background:#000}
+.logo-window img{position:absolute;top:0;left:0;width:142.0455%;max-width:none;height:auto;transform:translate(-13.8%,-42%)}
+@media(max-width:820px){.logo-window{width:210px}}
+@media(max-width:380px){.logo-window{width:180px}}
