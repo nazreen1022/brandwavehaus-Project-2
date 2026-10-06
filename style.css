@@ -1003,7 +1003,7 @@ textarea {
 
   font-family: var(--heading-font);
 
-  font-size: clamp(65px,9vw,150px);
+  font-size: clamp(42.25px,5.85vw,97.5px);
 
   line-height: .84;
 }
@@ -1842,7 +1842,7 @@ a:focus-visible, .nav-button:focus-visible, button:focus-visible { outline: 2px 
   .service-content { padding: 30px 24px; }
   .work-in-motion { height: clamp(480px, 75svh, 660px); min-height: 480px; }
   .work-video-content { padding: 72px var(--side-space); }
-  .work-video-content h2 { font-size: clamp(48px, 11vw, 84px); line-height: .92; }
+  .work-video-content h2 { font-size: clamp(31.2px, 7.15vw, 54.6px); line-height: .92; }
   .work-video-content p { max-width: 340px; font-size: 13px; }
   .work-video-bottom { gap: 16px; font-size: 7px; bottom: 24px; }
   .clients { padding: 72px 0 60px; }
