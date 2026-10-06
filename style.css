@@ -2872,3 +2872,10 @@ p {
 .logo-window img{position:absolute;top:0;left:0;width:142.0455%;max-width:none;height:auto;transform:translate(-13.8%,-42%)}
 @media(max-width:820px){.logo-window{width:210px}}
 @media(max-width:380px){.logo-window{width:180px}}
+
+/* Required enquiry consent above the submit button. */
+.contact-form .privacy-consent{display:flex;align-items:flex-start;gap:12px;margin:4px 0 24px;cursor:pointer}
+.contact-form .privacy-consent input{appearance:auto;-webkit-appearance:checkbox;flex:0 0 18px;width:18px;height:18px;min-height:0;padding:0;margin:3px 0 0;border:0;accent-color:#fff;cursor:pointer}
+.contact-form .privacy-consent>span{display:block;margin:0;color:#aaa;font-family:Montserrat,Arial,sans-serif;font-size:12px;font-weight:400;line-height:1.8;text-transform:none;letter-spacing:0}
+.privacy-consent a{color:#fff;text-decoration:underline;text-underline-offset:3px}
+.contact-form .privacy-consent input:focus-visible{outline:2px solid #fff;outline-offset:4px}
